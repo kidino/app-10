@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
@@ -59,6 +60,8 @@ Route::middleware('auth')->group(function () {
         UserController::class,
         'store'
     ])->name('user.store');
+
+    Route::resource('role', RoleController::class);
 
     Route::put('/user/{id}',function(){ })->name('user.update');
 
