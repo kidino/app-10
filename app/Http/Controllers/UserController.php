@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,10 +25,46 @@ class UserController extends Controller
     public function edit($id) {
 
         $user = User::findOrFail($id);
+        $roles = Role::all();
 
-        return view('user.edit', [
-            'user' => $user
+        // return view('user.edit', [
+        //     'user' => $user,
+        //     'roles' => $roles
+        // ]);
+
+        return view('user.edit', compact('user', 'roles'));
+    }
+
+    public function update(Request $request, $id) {
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'roles' => ['nullable', 'array'],
+            'roles.*' => ['exists:roles,id'],
+            'password' => ['nullable', 'confirmed', Password::defaults()],
         ]);
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        // update password only if entered 
+        if($request->filled('password')) {
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
+
+        $user->roles()->sync($request->roles ?? []);
+
+        return redirect(route('user.index'))->with(
+            'success',
+            'User '.$user->name.' ('.$user->id.') updated successfully'
+        );
     }
 
     function create() {

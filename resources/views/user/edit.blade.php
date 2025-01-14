@@ -57,6 +57,32 @@
         <x-input-error :messages="$errors->get('password')" class="mt-2" />
     </div>
 
+    <!-- Roles Field -->
+    <div class="mb-5">
+
+        <x-input-label for="roles" :value="__('Roles')" />
+
+
+        @php 
+            $user_roles = $user->roles->pluck('id')->toArray();
+            print_r($user_roles)
+        @endphp 
+
+        @foreach ($roles as $role)
+
+            <div>
+                <input type="checkbox" name="roles[]" 
+                id="role_{{ $role->id }}"
+                value="{{ $role->id}}"
+                @checked( in_array($role->id, $user_roles) )
+                /> {{ $role->name }}
+            </div> 
+        
+        @endforeach
+
+
+    </div>
+
     <!-- Submit Button -->
     <div class="flex justify-end">
         <x-primary-button>

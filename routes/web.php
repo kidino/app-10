@@ -63,7 +63,10 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('role', RoleController::class);
 
-    Route::put('/user/{id}',function(){ })->name('user.update');
+    Route::put('/user/{id}',[
+        UserController::class,
+        'update'
+    ])->name('user.update');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
