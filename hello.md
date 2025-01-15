@@ -13,5 +13,9 @@ are you there
 
 ~~senget~~
 
-```php artisan make:model Role``` 
+```php artisan make:model Role```
+
+```npm run dev``` -- hot reload, for development
+
+```npm run build``` -- akan deploy css, js file into public folder. better for production.
 

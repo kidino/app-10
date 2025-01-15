@@ -40,6 +40,16 @@ class="mb-5 inline-flex items-center px-4 py-2 bg-gray-800 border border-transpa
             <td class="px-4 py-2 border border-gray-300 text-sm text-gray-800">{{ $r->description }}</td>
             <td class="px-4 py-2 border border-gray-300 text-sm text-blue-500">
                 <a href="{{ route('role.edit', $r->id) }}" class="hover:underline">EDIT</a>
+
+                <form action="{{ route('role.destroy', $r->id) }}" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-500 hover:underline" 
+                    onclick="return confirm('Are you sure you want to delete this role ({{$r->name}})?')">
+                        DELETE
+                    </button>
+                </form>
+
             </td>
         </tr>
         @endforeach
