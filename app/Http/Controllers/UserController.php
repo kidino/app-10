@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Mail\Birthday;
 use Illuminate\Http\Request;
+use App\Notifications\SayHello;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -100,4 +103,24 @@ class UserController extends Controller
         );
 
     }
+
+    public function sendhello( User $user ) {
+        $user->notify( new SayHello );
+
+        return redirect(route('user.index'))->with(
+            'success', 
+            'Email has been send to '.$user->name.' successfully'
+        );    
+    }
+
+    public function sendbirthday( User $user ) {
+
+        Mail::to( $user->email )->send( new Birthday($user) );
+
+        return redirect(route('user.index'))->with(
+            'success', 
+            'Happy birthday has been sent to '.$user->name.' successfully'
+        );    
+    }    
+
 }

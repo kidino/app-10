@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 
@@ -51,6 +52,16 @@ Route::middleware('auth')->group(function () {
         'edit'
     ])->name('user.edit');    
 
+    Route::get('/user/{user}/hello', [
+        UserController::class, 
+        'sendhello'
+    ])->name('user.hello');    
+
+    Route::get('/user/{user}/birthday', [
+        UserController::class, 
+        'sendbirthday'
+    ])->name('user.birthday');  
+
     Route::get('/user/create', [
         UserController::class,
         'create'
@@ -62,6 +73,8 @@ Route::middleware('auth')->group(function () {
     ])->name('user.store');
 
     Route::resource('role', RoleController::class);
+
+    Route::resource('note', NoteController::class);
 
     Route::put('/user/{id}',[
         UserController::class,

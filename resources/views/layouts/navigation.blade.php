@@ -16,7 +16,12 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-
+                    <x-nav-link :href="route('note.index')" 
+                    :active="request()->routeIs('note.*')"
+                    >
+                        {{ __('My Notes') }}
+                    </x-nav-link>
+                    
                     <x-nav-link :href="route('user.index')" 
                     :active="request()->routeIs('user.*')"
                     >
