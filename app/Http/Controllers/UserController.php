@@ -10,15 +10,23 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         
-        $users = User::all();
+        if($request->filled('s')) {
+            $users = User::where('name', 'like', '%'.$request->s.'%')
+                ->orWhere('email', 'like', '%'.$request->s.'%')
+                ->paginate(10);
+        } else {
+            $users = User::paginate(10);
+        }
+
         // echo "<pre>";
         // print_r($users->toArray());
         // echo "</pre>";
 
         return view('user.index', [
-            'users' => $users
+            'users' => $users,
+            'request' => $request
         ]);
     }
 

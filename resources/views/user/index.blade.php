@@ -23,7 +23,19 @@
 class="mb-5 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
 >Add New User</a>
 
-<table class="w-full border-collapse border border-gray-300 shadow-lg">
+
+<form action="{{ route('user.index') }}" method="GET" class="flex mb-3">
+
+    <x-text-input
+        name="s" 
+        :value="$request->s"
+    />
+
+    <x-primary-button type="submit">Search</x-primary-button>
+
+</form>
+
+<table class="w-full border-collapse border border-gray-300 shadow-lg mb-3">
     <thead class="bg-gray-200">
         <tr>
             <th class="px-4 py-2 border border-gray-300 text-left text-sm font-medium text-gray-600">ID</th>
@@ -46,6 +58,7 @@ class="mb-5 inline-flex items-center px-4 py-2 bg-gray-800 border border-transpa
     </tbody>
 </table>
 
+{{ $users->appends(['s' => $request->s])->links() }}
 
                 </div>
             </div>
